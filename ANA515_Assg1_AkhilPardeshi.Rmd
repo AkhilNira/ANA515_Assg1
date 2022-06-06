@@ -1,0 +1,71 @@
+---
+title: "ANA 515 Assignment 1 - AP0120"
+author: Akhil Pardeshi
+date: 5/26/2022
+output:
+  word_document:
+  theme:
+  bootswatch: 'Superhero.css'
+---
+
+``` {r, include = FALSE}
+# Chunk for the installed packages
+installed.packages("tidyverse")
+installed.packages("dplyr")
+installed.packages("knitr")
+installed.packages("bslib")
+
+#bootswatch_themes(version = version_default(), full_path = FALSE
+```
+
+```{r, include = FALSE}
+# Calling the installed packages
+library(dplyr)
+library(tidyverse)
+library(knitr)
+library(bslib)
+library(ggplot2)
+```
+
+```{r, include=FALSE}
+# Code to get data from the URL
+url<- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+data1<- read_csv(url)
+glimpse(data1)
+```
+
+```{r include=FALSE}
+# Filtering Data set by age
+youth<- filter(data1, age<=65)
+```
+
+```{r, include=FALSE}
+#Summary of Youth:
+summary(youth)
+
+```
+
+We have data about _`r nrow(data1)`_ individuals killed by guns. Only _`r nrow(data1)-nrow(youth)`_ are older than 65. The distribution of the remainder is shown below: 
+
+
+``` {r youth-dist, echo = FALSE}
+#Plot distribution of Youth by age
+youth %>% 
+  ggplot(aes(age)) + 
+  geom_freqpoly(binwidth = 1)
+```
+
+```{r race-dist, echo = FALSE}
+#Plot distribution of Youth by race
+youth%>%
+  ggplot(aes(fct_infreq(race)%>%
+               fct_rev()))+
+  geom_bar()+
+  coord_flip()+
+  labs(x="Victim Race")
+
+```
+
+```{r, echo = FALSE}
+#Once all of my code has been written, I click on the Knit button in the tool bar above to produce my document.
+```
